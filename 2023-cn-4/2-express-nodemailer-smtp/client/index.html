@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Express Nodemail SMTP demo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>res.sendFile() virker!</h1>
+            <p>HTML filen bliver modtaget af klienten.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="results"></div>
+
+        <form method="POST" action="/">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Indtast en email">
+            <br>  
+            <p>Responstid for endpoint '/emails' er sat til 3 sekunder hvis der er emails i listen.</p>
+            <p>Det fremhæver formålet med asynkron programmering når der er ventetid over et netværk.</p>
+            <button type="submit" style="width:80px;">Send</button>
+        </form>
+
+        <form method="POST" action="/send">
+            <br>
+            <label for="message">Besked:</label>
+            <input type="text" id="message" name="message" placeholder="Skriv en besked">
+            <br>
+            <p>Knappen kan kun trykkes på hvis der er emails i listen.</p>
+            <button type="submit" style="width:80px;" id="sendButton" disabled>Send</button>
+        </form>
+
+    </div>
+
+    <script>
+        async function fetchAndDisplayEmails() {
+            try {
+                // Fetch the list of recipient emails from the server
+                const response = await fetch('http://localhost:3000/emails');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const emails = await response.json();
+
+                // Display the list of emails on the page
+                const resultsDiv = document.getElementById('results');
+
+                // If there are no emails, display a message, otherwise create a list
+                if (emails.length === 0) {
+                    resultsDiv.innerHTML = '<p>Ingen email adresser fundet.</p>';
+                } else {
+                    resultsDiv.innerHTML = '<p>Email adresser:</p>';
+                    const emailList = document.createElement('ul');
+
+                    emails.forEach(email => {
+                        const emailItem = document.createElement('li');
+                        emailItem.textContent = email;
+                        emailList.appendChild(emailItem);
+                    });
+
+                    resultsDiv.appendChild(emailList);
+                }
+
+                // Enable the send button if there are available emails
+                const sendButton = document.getElementById('sendButton');
+                sendButton.disabled = emails.length === 0 ? true : false;
+            } catch (error) {
+                console.error('Error fetching emails:', error);
+            }
+        }
+
+        // Call the fetchAndDisplayEmails function when the page loads
+        window.addEventListener('load', fetchAndDisplayEmails);
+    </script>
+
+</body>
+
+</html>
