@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/customer", customerRoute);
 
-app.get("/", (req, res) => {
+app.get("/test", (req, res) => {
   res.send("Hello World");
 });
 

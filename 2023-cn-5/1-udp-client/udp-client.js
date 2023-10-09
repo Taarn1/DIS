@@ -129,4 +129,4 @@ function pingServersForRTT (serverAdress = []) {
 // pingForAverageRTT('170.64.178.159', 10, 1000)
 // pingForAverageRTT('64.227.111.29', 10, 1000)
 
-// pingServersForRTT(HOSTS)
+pingServersForRTT(HOSTS)
