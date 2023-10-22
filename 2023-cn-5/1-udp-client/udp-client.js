@@ -8,7 +8,7 @@ var timestamp = 0
 
 // HOSTS sat op på 3 forskellige Droplets på DigitalOcean 
 // ['London', 'San Francisco', 'Sydney']
-const HOSTS = ['161.35.41.62', '170.64.178.159', '64.227.111.29'];
+const HOSTS = "142.93.172.19"
 const PORT = 6790;
 
 
@@ -121,12 +121,10 @@ function pingServersForRTT (serverAdress = []) {
 
 // Øvelse 1 - fjern kommentarerne og kald funktionerne en for en
 
-//pingForRTT('161.35.41.62')
+pingForRTT("127.0.0.1:3000")
 //pingForRTT('170.64.178.159')
 //pingForRTT('64.227.111.29')
 
 //pingForAverageRTT('161.35.41.62', 10, 1000)
 // pingForAverageRTT('170.64.178.159', 10, 1000)
 // pingForAverageRTT('64.227.111.29', 10, 1000)
-
-pingServersForRTT(HOSTS)
