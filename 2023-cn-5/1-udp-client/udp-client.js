@@ -9,7 +9,7 @@ var timestamp = 0
 // HOSTS sat op på 3 forskellige Droplets på DigitalOcean 
 // ['London', 'San Francisco', 'Sydney']
 const HOSTS = "142.93.172.19"
-const PORT = 6790;
+const PORT = 3000;
 
 
 // Async timeout function til at vente med at sende beskeder
@@ -121,7 +121,7 @@ function pingServersForRTT (serverAdress = []) {
 
 // Øvelse 1 - fjern kommentarerne og kald funktionerne en for en
 
-pingForRTT("127.0.0.1:3000")
+pingForRTT("142.93.172.19")
 //pingForRTT('170.64.178.159')
 //pingForRTT('64.227.111.29')
 
