@@ -9,7 +9,7 @@ var timestamp = 0
 // HOSTS sat op på 3 forskellige Droplets på DigitalOcean 
 // ['London', 'San Francisco', 'Sydney']
 const HOSTS = "142.93.172.19"
-const PORT = 3000;
+const PORT = 41234;
 
 
 // Async timeout function til at vente med at sende beskeder
@@ -87,44 +87,13 @@ async function pingForAverageRTT (serverAdress, amount = 10, delay = 500) {
         await sendMessage(message, PORT, serverAdress).then(() => { 
             timestamp = Date.now();
             sendTimeStamps.push(timestamp);
-            console.log('sent', message, 'at time', timestamp);
         })
     }
-}
-
-
-// Send en request til alle servere og udregn svartiden
-function pingServersForRTT (serverAdress = []) {
-    // Sender en besked til serveren
-    const message = 'ping'
-
-
-    // Sender en besked til alle servere
-    for (let i = 0; i < serverAdress.length; i++) {
-        sendMessage(message, PORT, serverAdress[i]).then(() => { 
-            timestamp = Date.now();
-            console.log('sent', message, 'at time', timestamp);
-        })
-    }
-
-    
-    // Lytter til svar fra serveren
-    // Udregner svartiden fra serveren ved brug af Date.now()
-    client.on('message', function (incommingMessage, remote) {
-        console.log('Received', incommingMessage.toString());
-        const receivedTime = Date.now();
-        const roundTripTime = receivedTime - timestamp;
-        console.log('Round trip time:', roundTripTime, 'ms');
-    });
 }
 
 
 // Øvelse 1 - fjern kommentarerne og kald funktionerne en for en
 
-pingForRTT("142.93.172.19")
-//pingForRTT('170.64.178.159')
-//pingForRTT('64.227.111.29')
+//pingForRTT("142.93.172.19")
 
-//pingForAverageRTT('161.35.41.62', 10, 1000)
-// pingForAverageRTT('170.64.178.159', 10, 1000)
-// pingForAverageRTT('64.227.111.29', 10, 1000)
+pingForAverageRTT('142.93.172.19', 10, 1000)

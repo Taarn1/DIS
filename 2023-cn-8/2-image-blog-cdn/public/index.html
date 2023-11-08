@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/style">
+        <title>Image blog</title>
+        <script>
+
+            function createImageElement(imageUrl, caption) {
+                const img = document.createElement('img')
+                const path = `${imageUrl}`
+                img.src = path
+                img.className = 'img'
+                
+                const captionElement = document.createElement('p')
+                captionElement.innerText = '#' + caption
+            
+                const imageContainer = document.getElementById('images')
+                imageContainer.appendChild(img)
+                imageContainer.appendChild(captionElement)
+            }
+
+            async function getImages() {
+                const response = await fetch('http://localhost:3000/api/images', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                
+                if (response.status !== 200) {
+                    throw new Error('returned status code ' + response.status);
+                }
+
+                const jsonBody = await response.json()
+                return jsonBody.images
+            }
+
+            async function main() {
+                const images = await getImages()
+                images.forEach(image => {
+                    createImageElement(image.url, image.caption)
+                });
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                main()
+            });
+
+        </script>
+    </head>
+
+    <body>
+            <h2>My image blog</h2>
+            <form method="post" action="/api/images" id="form" enctype="multipart/form-data">
+                <input type="file" name="image" /><br /><br />
+                <input type="text" name="caption" placeholder="Caption">
+                <input type="text" name="key" placeholder="Authorization key">
+                <button type="submit" name="upload">Upload</button>
+            </form>
+            <div>
+                <h2>Images</h2>
+                <div id="images"> 
+                </div>
+            </div>
+    </body>  
+
+</html>
